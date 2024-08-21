@@ -1,28 +1,18 @@
-version: '3.1'
-
 services:
   wordpress:
     image: wordpress:php8.2-apache
     restart: always
     ports:
       - 8080:80
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: mywp
-      WORDPRESS_DB_PASSWORD: pass
-      WORDPRESS_DB_NAME: mydb
-      WORDUSERNAME: mywp
+    env_file: .env.wordpress
     volumes:
       - wordpress:/var/www/html
-
+    depends_on:
+      - db      
   db:
     image: mysql:8.0
     restart: always
-    environment:
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: mywp
-      MYSQL_PASSWORD: pass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    env_file: .env.mysql
     volumes:
       - db:/var/lib/mysql
 
